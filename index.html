@@ -204,6 +204,7 @@
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const message = document.getElementById('message');
+        const btnContainer = document.querySelector('.button-container');
 
         // List of sentences for the No button
         const noSentences = [
@@ -219,6 +220,16 @@
         let noClickCount = 0;
         let yesBtnScale = 1;
 
+        // Ensure the Yes and No buttons have initial transforms and transitions
+        yesBtn.style.transform = `scale(${yesBtnScale})`;
+        yesBtn.style.transition = 'transform 0.18s ease';
+        yesBtn.style.transformOrigin = 'center';
+        yesBtn.style.zIndex = 2;
+
+        noBtn.style.transition = 'transform 0.18s ease, width 0.18s ease';
+        noBtn.style.transformOrigin = 'center';
+        noBtn.style.zIndex = 1;
+
         yesBtn.addEventListener('click', () => {
             // Redirect immediately to options page
             window.location.href = './options.html';
@@ -226,14 +237,39 @@
 
         noBtn.addEventListener('click', () => {
             noClickCount++;
-            
-            // Increase yes button size
-            yesBtnScale += 0.15;
+            // Increase yes button size immediately (works on first click)
+            yesBtnScale = Math.round((yesBtnScale + 0.15) * 100) / 100; // keep to 2 decimals
+
+            // Prevent layout shift when changing No button text by fixing its width
+            const currentNoWidth = noBtn.offsetWidth;
+            noBtn.style.width = currentNoWidth + 'px';
+
+            // Apply scale to Yes button
             yesBtn.style.transform = `scale(${yesBtnScale})`;
-            
+
+            // Calculate a horizontal shift for No so it doesn't intersect the scaled Yes
+            const yesRect = yesBtn.getBoundingClientRect();
+            const noRect = noBtn.getBoundingClientRect();
+            // Determine extra gap needed (in px) so edges are at least 12px apart
+            const desiredGap = 12;
+            const extraShift = Math.max(0, (yesRect.right + desiredGap) - noRect.left);
+            // Add a slight multiplier so shift comfortably clears overlap
+            const shiftX = Math.round((extraShift + (yesBtnScale - 1) * 10) * 100) / 100;
+
+            // Shrink No button slightly and translate it to the right
+            const noScale = 0.95;
+            noBtn.style.transform = `scale(${noScale}) translateX(${shiftX}px)`;
+
             // Cycle through sentences
             const sentenceIndex = (noClickCount - 1) % noSentences.length;
             noBtn.textContent = noSentences[sentenceIndex];
+
+            // Allow the No button to resize naturally after a short delay and reset transform (keeping shrink)
+            setTimeout(() => {
+                noBtn.style.width = '';
+                // keep the small scale but remove translate if not needed
+                noBtn.style.transform = `scale(${noScale}) translateX(${shiftX}px)`;
+            }, 300);
             
             // Show no message
             message.textContent = '😢 Oh no! Maybe next time...';
