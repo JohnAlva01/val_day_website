@@ -94,6 +94,43 @@ button:focus { outline: 3px solid #ffc107; outline-offset: 2px; }
   min-width: auto;
 }
 
+/* Allow modal to scroll on mobile */
+.modal {
+  overflow-y: auto;
+  align-items: flex-start;   /* push content to top */
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Card itself can scroll if content is tall */
+.card {
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* Sticky header so Close is always visible */
+.card-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding-bottom: 10px;
+  z-index: 5;
+}
+
+/* Mobile "bottom sheet" feel */
+@media (max-width: 740px) {
+  .modal {
+    padding: 12px;
+  }
+
+  .card {
+    border-radius: 20px;
+    width: 100%;
+    max-height: 92vh;
+  }
+}
+
+
 .mini-btn:hover { background: #fff2f7; }
 .hidden { display: none !important; }
 
