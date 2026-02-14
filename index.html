@@ -220,12 +220,8 @@
         let yesBtnScale = 1;
 
         yesBtn.addEventListener('click', () => {
-            message.textContent = '💕 Yay! Happy Valentine\'s Day! 💕';
-            message.classList.add('show', 'yes-message');
-            message.classList.remove('no-message');
-            
-            // Redirect to options page immediately
-            window.location.href = 'options.html';
+            // Redirect immediately to options page
+            window.location.href = './options.html';
         });
 
         noBtn.addEventListener('click', () => {
