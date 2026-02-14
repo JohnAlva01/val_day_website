@@ -1,3 +1,4 @@
+// /js/moments.js
 import { momentsData } from "./moments-data.js";
 
 export function initMomentsModal() {
@@ -14,7 +15,10 @@ export function initMomentsModal() {
   const momentVideoSrc = document.getElementById("momentVideoSrc");
   const momentText = document.getElementById("momentText");
 
-  if (!momentsBtn || !momentsModal) return;
+  // The container around the <video> (used to toggle portrait mode)
+  const videoBox = momentsDetailView?.querySelector(".video-box");
+
+  if (!momentsBtn || !momentsModal || !momentsListView || !momentsDetailView) return;
 
   function openMomentsModal() {
     momentsModal.classList.add("show");
@@ -23,34 +27,67 @@ export function initMomentsModal() {
   }
 
   function closeMomentsModal() {
-    try { momentVideo?.pause(); } catch {}
+    // Stop video when closing
+    try {
+      momentVideo?.pause();
+      // reset src so it doesn't keep buffering audio on some browsers
+      if (momentVideoSrc) momentVideoSrc.src = "";
+      momentVideo?.load?.();
+    } catch {}
+
+    // reset portrait class
+    videoBox?.classList.remove("portrait");
+
     momentsModal.classList.remove("show");
     momentsModal.setAttribute("aria-hidden", "true");
   }
 
   function showMomentsList() {
+    // Header + buttons
     if (momentsHeaderTitle) momentsHeaderTitle.textContent = "Favourite Moments ✨";
     momentsBackBtn?.classList.add("hidden");
-    momentsDetailView?.classList.add("hidden");
-    momentsListView?.classList.remove("hidden");
 
-    if (momentVideoSrc) momentVideoSrc.src = "";
-    momentVideo?.load?.();
+    // Views
+    momentsDetailView.classList.add("hidden");
+    momentsListView.classList.remove("hidden");
+
+    // Reset video
+    try {
+      momentVideo?.pause();
+      if (momentVideoSrc) momentVideoSrc.src = "";
+      momentVideo?.load?.();
+    } catch {}
+
+    // Reset portrait state
+    videoBox?.classList.remove("portrait");
   }
 
   function showMomentDetail(index) {
     const m = momentsData[index];
     if (!m) return;
 
+    // Header + buttons
     if (momentsHeaderTitle) momentsHeaderTitle.textContent = m.title;
-    momentsListView?.classList.add("hidden");
-    momentsDetailView?.classList.remove("hidden");
     momentsBackBtn?.classList.remove("hidden");
 
-    if (momentText) momentText.textContent = m.text;
+    // Views
+    momentsListView.classList.add("hidden");
+    momentsDetailView.classList.remove("hidden");
 
-    if (momentVideoSrc) momentVideoSrc.src = m.video;
+    // Text
+    if (momentText) momentText.textContent = m.text ?? "";
+
+    // Video
+    if (momentVideoSrc) momentVideoSrc.src = m.video ?? "";
     momentVideo?.load?.();
+
+    // Detect orientation once metadata is loaded and toggle portrait mode
+    if (momentVideo) {
+      momentVideo.onloadedmetadata = () => {
+        const isPortrait = momentVideo.videoHeight > momentVideo.videoWidth;
+        videoBox?.classList.toggle("portrait", isPortrait);
+      };
+    }
   }
 
   // Open / close
