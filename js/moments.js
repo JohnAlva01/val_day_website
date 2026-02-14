@@ -1,5 +1,3 @@
-// moments.js
-// /js/moments.js
 import { momentsData } from "./moments-data.js";
 
 export function initMomentsModal() {
@@ -12,109 +10,58 @@ export function initMomentsModal() {
   const momentsListView = document.getElementById("momentsListView");
   const momentsDetailView = document.getElementById("momentsDetailView");
 
-  const momentVideo = document.getElementById("momentVideo");
+  const momentGif = document.getElementById("momentVideo");
   const momentText = document.getElementById("momentText");
 
-  // The container around the <video> (used to toggle portrait mode)
-  const videoBox = momentsDetailView?.querySelector(".video-box");
+  if (!momentsBtn || !momentsModal) return;
 
-  if (!momentsBtn || !momentsModal || !momentsListView || !momentsDetailView) return;
-
-  function resetVideo() {
-    try {
-      momentVideo?.pause();
-      momentVideo?.removeAttribute("src");
-      momentVideo?.load?.();
-    } catch {}
-    videoBox?.classList.remove("portrait");
+  function resetGif() {
+    momentGif.removeAttribute("src");
   }
 
   function openMomentsModal() {
     momentsModal.classList.add("show");
-    momentsModal.setAttribute("aria-hidden", "false");
     showMomentsList();
   }
 
   function closeMomentsModal() {
-    resetVideo();
+    resetGif();
     momentsModal.classList.remove("show");
-    momentsModal.setAttribute("aria-hidden", "true");
   }
 
   function showMomentsList() {
-    // Header + buttons
-    if (momentsHeaderTitle) momentsHeaderTitle.textContent = "Favourite Moments ✨";
-    momentsBackBtn?.classList.add("hidden");
+    momentsHeaderTitle.textContent = "Favourite Moments ✨";
+    momentsBackBtn.classList.add("hidden");
 
-    // Views
     momentsDetailView.classList.add("hidden");
     momentsListView.classList.remove("hidden");
 
-    resetVideo();
+    resetGif();
   }
 
   function showMomentDetail(index) {
     const m = momentsData[index];
     if (!m) return;
 
-    // Header + buttons
-    if (momentsHeaderTitle) momentsHeaderTitle.textContent = m.title;
-    momentsBackBtn?.classList.remove("hidden");
+    momentsHeaderTitle.textContent = m.title;
+    momentsBackBtn.classList.remove("hidden");
 
-    // Views
     momentsListView.classList.add("hidden");
     momentsDetailView.classList.remove("hidden");
 
-    // Text
-    if (momentText) momentText.textContent = m.text ?? "";
+    momentText.textContent = m.text;
 
-    // Video (set src directly so MOV/MP4 mismatch doesn’t break on mobile)
-    if (momentVideo) {
-      try {
-        momentVideo.pause();
-        momentVideo.removeAttribute("src");
-        momentVideo.load();
-
-        const videoUrl = new URL(m.video, import.meta.url);
-        momentVideo.src = videoUrl.href;
-        
-        momentVideo.load();
-
-        momentVideo.onloadedmetadata = () => {
-          const isPortrait = momentVideo.videoHeight > momentVideo.videoWidth;
-          videoBox?.classList.toggle("portrait", isPortrait);
-        };
-      } catch {}
-    }
+    const gifUrl = new URL(m.video, import.meta.url);
+    momentGif.src = gifUrl.href;
   }
 
-  // Open / close
   momentsBtn.addEventListener("click", openMomentsModal);
-  momentsCloseBtn?.addEventListener("click", closeMomentsModal);
-  momentsBackBtn?.addEventListener("click", showMomentsList);
+  momentsCloseBtn.addEventListener("click", closeMomentsModal);
+  momentsBackBtn.addEventListener("click", showMomentsList);
 
-  // Click outside closes
-  momentsModal.addEventListener("click", (e) => {
-    if (e.target === momentsModal) closeMomentsModal();
-  });
-
-  // Escape closes (only if open)
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && momentsModal.classList.contains("show")) {
-      closeMomentsModal();
-    }
-  });
-
-  // List item click + keyboard open
   document.querySelectorAll(".moment-item").forEach((item) => {
-    const open = () => showMomentDetail(Number(item.dataset.moment));
-
-    item.addEventListener("click", open);
-    item.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        open();
-      }
+    item.addEventListener("click", () => {
+      showMomentDetail(Number(item.dataset.moment));
     });
   });
 }

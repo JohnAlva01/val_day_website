@@ -187,29 +187,35 @@ button:focus { outline: 3px solid #ffc107; outline-offset: 2px; }
 .moment-title { color: #5b2b3f; font-weight: 900; font-size: 1.05rem; }
 .moment-sub { color: rgba(91, 43, 63, 0.75); margin-top: 4px; font-size: 0.95rem; }
 
-/* Moment detail layout */
 .moment-detail {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
 }
 
 .video-box {
-  background: #000;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 2px solid #ffd1e3;
-
-  /* default layout */
-  aspect-ratio: 16 / 9;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* keeps it from getting too huge */
-  max-height: 420px;
+  width: 100%;
+  justify-self: stretch;
+  padding: 0;          /* remove the “frame” padding */
+  margin: 0;           /* prevent centering offsets */
 }
+
+
+.video-box img {
+  max-width: 100%;
+  max-height: 500px;
+
+  width: auto;
+  height: auto;
+
+  display: block;
+  object-fit: contain;
+
+  margin: 0 auto;
+}
+
+
 
 .video-box video {
   width: 100%;
@@ -221,10 +227,9 @@ button:focus { outline: 3px solid #ffc107; outline-offset: 2px; }
 
 /* Portrait mode tweaks */
 .video-box.portrait {
-  aspect-ratio: 9 / 16;
-  max-height: 560px;   /* give portrait more height */
-  width: min(360px, 100%); /* keeps portrait from stretching super wide */
-  margin: 0 auto;      /* centers it in its column */
+  width: 100%;
+  margin: 0;
+  aspect-ratio: auto;
 }
 
 .detail-text {
