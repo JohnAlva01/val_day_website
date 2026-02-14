@@ -1,165 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Options</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ffd6e8 0%, #ffe5f0 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        main {
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #d63384;
-            margin-bottom: 40px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        button {
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 150px;
-            background-color: #d63384;
-            color: white;
-        }
-
-        button:hover {
-            background-color: #b02d6f;
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(214, 51, 132, 0.4);
-        }
-
-        button:focus {
-            outline: 3px solid #ffc107;
-            outline-offset: 2px;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .back-link {
-            margin-top: 30px;
-            display: inline-block;
-        }
-
-        .back-link a {
-            color: #d63384;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .back-link a:hover {
-            color: #b02d6f;
-            text-decoration: underline;
-        }
-
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .container {
-                padding: 30px 20px;
-            }
-
-            button {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine's Options</title>
+  <link rel="stylesheet" href="./css/options.css" />
 </head>
+
 <body>
-    <main>
-        <div class="container">
-            <h1>Choose an Option</h1>
+  <main>
+    <div class="container">
+      <h1>Choose an Option</h1>
 
-            <div class="button-container">
-                <button id="letterBtn">Letter</button>
-                <button id="momentsBtn">Favourite Moments</button>
-            </div>
+      <div class="button-container">
+        <button id="letterBtn">💌 Letter</button>
+        <button id="momentsBtn">✨ Favourite Moments</button>
+      </div>
 
-            <div class="back-link">
-                <a href="index.html">← Go Back</a>
-            </div>
+      <div class="back-link">
+        <a href="index.html">← Go Back</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Letter Modal -->
+  <div class="modal" id="letterModal" aria-hidden="true">
+    <div class="card" role="dialog" aria-modal="true" aria-label="Letter">
+      <div class="card-header">
+        <div class="card-title">To My Love 💗</div>
+        <button class="mini-btn" id="closeLetterBtn" type="button">Close</button>
+      </div>
+
+      <div class="letter-content">
+Happy Valentine's Day Love!!!!!!
+
+We've been separated for about 2 years now so giving each other
+little gifts and surprises makes it a little difficult. As a computer
+guy I thought that this was the best way for me send you a lil
+something even while you're out and about in Japan.
+
+I love spending every scrap of time I have with you and thank you
+for keeping me up to date with anything that's been happening.
+Each time we talk, I just want to stay and chat regardless of it being
+like 4 am in the morning. I love how you said you wanted to wait to tell
+me the tea but I kept egging you on to tell me the tea and it was 3 am
+(totally not because I wanted to listen to you). You give me somthing to
+look forward to each time we schedule a call and I can't
+wait for the day where we move from a facetime call to a real life date.
+
+Thank you for staying with me through all the ups and downs. We've
+conquered some tough times together and I love that we keep being
+open and honest to each other. Being our own people is as important
+as being the person for each other and we are very much capable of doing
+being you and being us at the same time.
+
+Setting up this website was a bit of a pain so I hope you enjoy it. Stayed
+up late a few nights just to get it working lol.
+
+I love you so much ❤️
+
+From,
+Love that Annoys You All The Time
+      </div>
+    </div>
+  </div>
+
+  <!-- Moments Modal -->
+  <div class="modal" id="momentsModal" aria-hidden="true">
+    <div class="card" role="dialog" aria-modal="true" aria-label="Favourite moments">
+      <div class="card-header">
+        <div class="card-title" id="momentsHeaderTitle">Favourite Moments ✨</div>
+        <div class="header-actions">
+          <button class="mini-btn hidden" id="momentsBackBtn" type="button">Back</button>
+          <button class="mini-btn" id="momentsCloseBtn" type="button">Close</button>
         </div>
-    </main>
+      </div>
 
-    <script>
-        const letterBtn = document.getElementById('letterBtn');
-        const momentsBtn = document.getElementById('momentsBtn');
+      <!-- List view -->
+      <div id="momentsListView" class="moments-list">
+        <div class="moment-item" role="button" tabindex="0" data-moment="0" aria-label="Open moment 1">
+          <img class="moment-thumb" src="./assets/moment1.jpg" alt="Moment 1 thumbnail">
+          <div>
+            <div class="moment-title">Moment #1 — Our favourite call</div>
+            <div class="moment-sub">Tap to open</div>
+          </div>
+        </div>
 
-        letterBtn.addEventListener('click', () => {
-            // Add your Letter page logic here
-            alert('Letter page coming soon!');
-        });
+        <div class="moment-item" role="button" tabindex="0" data-moment="1" aria-label="Open moment 2">
+          <img class="moment-thumb" src="./assets/moment2.jpg" alt="Moment 2 thumbnail">
+          <div>
+            <div class="moment-title">Moment #2 — The funniest memory</div>
+            <div class="moment-sub">Tap to open</div>
+          </div>
+        </div>
 
-        momentsBtn.addEventListener('click', () => {
-            // Add your Favourite Moments page logic here
-            alert('Favourite Moments page coming soon!');
-        });
-    </script>
+        <div class="moment-item" role="button" tabindex="0" data-moment="2" aria-label="Open moment 3">
+          <img class="moment-thumb" src="./assets/moment3.jpg" alt="Moment 3 thumbnail">
+          <div>
+            <div class="moment-title">Moment #3 — A perfect day</div>
+            <div class="moment-sub">Tap to open</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail view -->
+      <div id="momentsDetailView" class="moment-detail hidden">
+        <div class="video-box">
+          <video id="momentVideo" controls playsinline>
+            <source id="momentVideoSrc" src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="detail-text" id="momentText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS (modules) -->
+  <script type="module" src="./js/options.js"></script>
 </body>
 </html>
