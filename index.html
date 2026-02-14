@@ -223,6 +223,11 @@
             message.textContent = '💕 Yay! Happy Valentine\'s Day! 💕';
             message.classList.add('show', 'yes-message');
             message.classList.remove('no-message');
+            
+            // Redirect to options page after a short delay
+            setTimeout(() => {
+                window.location.href = 'options.html';
+            }, 1500);
         });
 
         noBtn.addEventListener('click', () => {
