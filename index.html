@@ -233,10 +233,20 @@
         noBtn.style.transformOrigin = 'center';
         noBtn.style.zIndex = 1;
 
-        yesBtn.addEventListener('click', () => {
-            // Redirect immediately to options page
+        yesBtn.addEventListener('click', async () => {
+            const audio = document.getElementById('bgMusic');
+
+            try {
+                await audio.play(); // starts because this is a user click
+                // remember that music is on for the next page
+                sessionStorage.setItem('playMusic', 'true');
+            } catch (e) {
+                // If it fails (rare), we still continue to the next page
+                console.warn('Music could not start:', e);
+            }
+
             window.location.href = './options.html';
-        });
+            });
 
         noBtn.addEventListener('click', () => {
             noClickCount++;
@@ -279,5 +289,6 @@
             // Do NOT show the message under the buttons for No clicks
         });
     </script>
+    <audio id="bgMusic" src="./assets/song.mp3" preload="auto"></audio>
 </body>
 </html>
