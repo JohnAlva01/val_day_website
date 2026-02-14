@@ -1,3 +1,4 @@
+<!-- options.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,11 @@
       <div class="button-container">
         <button id="letterBtn">💌 Letter</button>
         <button id="momentsBtn">✨ Favourite Moments</button>
+      </div>
+
+      <!-- Shows only on mobile (or any browser) when autoplay is blocked -->
+      <div style="margin-top: 18px;">
+        <button id="musicBtn" class="mini-btn hidden" type="button">▶️ Play music</button>
       </div>
 
       <div class="back-link">
@@ -50,7 +56,8 @@ wait for the day where we move from a facetime call to a real life date.
 
 Thank you for staying with me through all the ups and downs. We've
 conquered some tough times together and I love that we keep being
-open and honest to each other. Being our own people is as important
+open and honest to each other. Being our own people is as impor
+tant
 as being the person for each other and we are very much capable of doing
 being you and being us at the same time.
 
@@ -107,12 +114,16 @@ Love that Annoys You All The Time
 
       </div>
 
-
       <!-- Detail view -->
       <div id="momentsDetailView" class="moment-detail hidden">
         <div class="video-box">
-          <video id="momentVideo" controls playsinline>
-            <source id="momentVideoSrc" src="" type="video/mp4">
+          <video
+            id="momentVideo"
+            controls
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+          >
             Your browser does not support the video tag.
           </video>
         </div>

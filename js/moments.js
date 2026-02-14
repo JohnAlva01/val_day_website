@@ -1,3 +1,4 @@
+// moments.js
 // /js/moments.js
 import { momentsData } from "./moments-data.js";
 
@@ -12,13 +13,21 @@ export function initMomentsModal() {
   const momentsDetailView = document.getElementById("momentsDetailView");
 
   const momentVideo = document.getElementById("momentVideo");
-  const momentVideoSrc = document.getElementById("momentVideoSrc");
   const momentText = document.getElementById("momentText");
 
   // The container around the <video> (used to toggle portrait mode)
   const videoBox = momentsDetailView?.querySelector(".video-box");
 
   if (!momentsBtn || !momentsModal || !momentsListView || !momentsDetailView) return;
+
+  function resetVideo() {
+    try {
+      momentVideo?.pause();
+      momentVideo?.removeAttribute("src");
+      momentVideo?.load?.();
+    } catch {}
+    videoBox?.classList.remove("portrait");
+  }
 
   function openMomentsModal() {
     momentsModal.classList.add("show");
@@ -27,17 +36,7 @@ export function initMomentsModal() {
   }
 
   function closeMomentsModal() {
-    // Stop video when closing
-    try {
-      momentVideo?.pause();
-      // reset src so it doesn't keep buffering audio on some browsers
-      if (momentVideoSrc) momentVideoSrc.src = "";
-      momentVideo?.load?.();
-    } catch {}
-
-    // reset portrait class
-    videoBox?.classList.remove("portrait");
-
+    resetVideo();
     momentsModal.classList.remove("show");
     momentsModal.setAttribute("aria-hidden", "true");
   }
@@ -51,15 +50,7 @@ export function initMomentsModal() {
     momentsDetailView.classList.add("hidden");
     momentsListView.classList.remove("hidden");
 
-    // Reset video
-    try {
-      momentVideo?.pause();
-      if (momentVideoSrc) momentVideoSrc.src = "";
-      momentVideo?.load?.();
-    } catch {}
-
-    // Reset portrait state
-    videoBox?.classList.remove("portrait");
+    resetVideo();
   }
 
   function showMomentDetail(index) {
@@ -77,16 +68,21 @@ export function initMomentsModal() {
     // Text
     if (momentText) momentText.textContent = m.text ?? "";
 
-    // Video
-    if (momentVideoSrc) momentVideoSrc.src = m.video ?? "";
-    momentVideo?.load?.();
-
-    // Detect orientation once metadata is loaded and toggle portrait mode
+    // Video (set src directly so MOV/MP4 mismatch doesn’t break on mobile)
     if (momentVideo) {
-      momentVideo.onloadedmetadata = () => {
-        const isPortrait = momentVideo.videoHeight > momentVideo.videoWidth;
-        videoBox?.classList.toggle("portrait", isPortrait);
-      };
+      try {
+        momentVideo.pause();
+        momentVideo.removeAttribute("src");
+        momentVideo.load();
+
+        momentVideo.src = m.video ?? "";
+        momentVideo.load();
+
+        momentVideo.onloadedmetadata = () => {
+          const isPortrait = momentVideo.videoHeight > momentVideo.videoWidth;
+          videoBox?.classList.toggle("portrait", isPortrait);
+        };
+      } catch {}
     }
   }
 
