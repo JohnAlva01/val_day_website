@@ -205,6 +205,20 @@
         const noBtn = document.getElementById('noBtn');
         const message = document.getElementById('message');
 
+        // List of sentences for the No button
+        const noSentences = [
+            'No',
+            'Are you sure?',
+            'Really sure?',
+            'Think about it...',
+            'You\'re hurting my feelings',
+            'I\'m going to cry...',
+            'Last chance!',
+        ];
+
+        let noClickCount = 0;
+        let yesBtnScale = 1;
+
         yesBtn.addEventListener('click', () => {
             message.textContent = '💕 Yay! Happy Valentine\'s Day! 💕';
             message.classList.add('show', 'yes-message');
@@ -212,6 +226,17 @@
         });
 
         noBtn.addEventListener('click', () => {
+            noClickCount++;
+            
+            // Increase yes button size
+            yesBtnScale += 0.15;
+            yesBtn.style.transform = `scale(${yesBtnScale})`;
+            
+            // Cycle through sentences
+            const sentenceIndex = (noClickCount - 1) % noSentences.length;
+            noBtn.textContent = noSentences[sentenceIndex];
+            
+            // Show no message
             message.textContent = '😢 Oh no! Maybe next time...';
             message.classList.add('show', 'no-message');
             message.classList.remove('yes-message');
