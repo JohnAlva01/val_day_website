@@ -30,9 +30,10 @@
         .container {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 40px 30px 70px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             animation: slideIn 0.5s ease-out;
+            overflow: visible;
         }
 
         @keyframes slideIn {
@@ -76,6 +77,8 @@
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 30px;
+            position: relative;
+            z-index: 3;
         }
 
         button {
@@ -267,9 +270,11 @@
             // Allow the No button to resize naturally after a short delay and reset transform (keeping shrink)
             setTimeout(() => {
                 noBtn.style.width = '';
-                // keep the small scale but remove translate if not needed
+                // keep the small scale but keep translate to avoid overlap
                 noBtn.style.transform = `scale(${noScale}) translateX(${shiftX}px)`;
             }, 300);
+
+            // Do NOT show the message under the buttons for No clicks
             
             // Show no message
             message.textContent = '😢 Oh no! Maybe next time...';
