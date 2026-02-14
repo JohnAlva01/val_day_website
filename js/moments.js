@@ -75,7 +75,9 @@ export function initMomentsModal() {
         momentVideo.removeAttribute("src");
         momentVideo.load();
 
-        momentVideo.src = m.video ?? "";
+        const videoUrl = new URL(m.video, import.meta.url);
+        momentVideo.src = videoUrl.href;
+        
         momentVideo.load();
 
         momentVideo.onloadedmetadata = () => {
